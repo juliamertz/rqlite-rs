@@ -9,6 +9,7 @@ pub enum RqliteArgument {
     F32(f32),
     Bool(bool),
     Blob(Vec<u8>),
+    Json(serde_json::Value),
     Null,
 }
 
@@ -80,6 +81,12 @@ impl RqliteArgumentRaw for &[u8] {
     }
 }
 
+impl RqliteArgumentRaw for serde_json::Value {
+    fn encode(&self) -> RqliteArgument {
+        RqliteArgument::Json(self.clone())
+    }
+}
+
 #[cfg(feature = "ipnetwork")]
 impl RqliteArgumentRaw for ipnetwork::Ipv4Network {
     fn encode(&self) -> RqliteArgument {
@@ -105,9 +112,16 @@ impl RqliteArgumentRaw for ipnetwork::IpNetwork {
 }
 
 #[cfg(feature = "uuid")]
-impl<T: AsRef<Uuid>> RqliteArgumentRaw for T {
+impl RqliteArgumentRaw for uuid::Uuid {
     fn encode(&self) -> RqliteArgument {
-        RqliteArgument::String(self.as_ref().to_string())
+        RqliteArgument::String(self.to_string())
+    }
+}
+
+#[cfg(feature = "uuid")]
+impl RqliteArgumentRaw for &uuid::Uuid {
+    fn encode(&self) -> RqliteArgument {
+        RqliteArgument::String(self.to_string())
     }
 }
 
