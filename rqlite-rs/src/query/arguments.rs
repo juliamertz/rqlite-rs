@@ -104,6 +104,13 @@ impl RqliteArgumentRaw for ipnetwork::IpNetwork {
     }
 }
 
+#[cfg(feature = "uuid")]
+impl<T: AsRef<Uuid>> RqliteArgumentRaw for T {
+    fn encode(&self) -> RqliteArgument {
+        RqliteArgument::String(self.as_ref().to_string())
+    }
+}
+
 impl<T> RqliteArgumentRaw for Option<T>
 where
     T: RqliteArgumentRaw,
