@@ -80,6 +80,30 @@ impl RqliteArgumentRaw for &[u8] {
     }
 }
 
+#[cfg(feature = "ipnetwork")]
+impl RqliteArgumentRaw for ipnetwork::Ipv4Network {
+    fn encode(&self) -> RqliteArgument {
+        RqliteArgument::String(self.to_string())
+    }
+}
+
+#[cfg(feature = "ipnetwork")]
+impl RqliteArgumentRaw for ipnetwork::Ipv6Network {
+    fn encode(&self) -> RqliteArgument {
+        RqliteArgument::String(self.to_string())
+    }
+}
+
+#[cfg(feature = "ipnetwork")]
+impl RqliteArgumentRaw for ipnetwork::IpNetwork {
+    fn encode(&self) -> RqliteArgument {
+        match self {
+            ipnetwork::IpNetwork::V4(ipv4_network) => ipv4_network.encode(),
+            ipnetwork::IpNetwork::V6(ipv6_network) => ipv6_network.encode(),
+        }
+    }
+}
+
 impl<T> RqliteArgumentRaw for Option<T>
 where
     T: RqliteArgumentRaw,

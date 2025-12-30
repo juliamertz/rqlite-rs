@@ -22,6 +22,7 @@ rustls-tls = ["reqwest/rustls-tls"]
 macros = ["rqlite-rs-macros"]
 fast-blob = ["rqlite-rs-core/fast-blob", "rqlite-rs-macros/fast-blob"]
 random-fallback = ["nanorand"]
+ipnetwork = ["dep:ipnetwork"]
 
 [dependencies]
 rqlite-rs-macros = { version = "0.3.2", path = "../rqlite-rs-macros", optional = true }
@@ -33,6 +34,7 @@ serde.workspace = true
 serde_json.workspace = true
 thiserror.workspace = true
 tracing = "0.1.44"
+ipnetwork = { version = "0.21.1", optional = true }
 
 [dev-dependencies]
 tokio = "1"
