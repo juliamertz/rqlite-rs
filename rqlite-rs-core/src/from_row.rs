@@ -8,6 +8,12 @@ pub trait FromRow: Sized {
     fn from_row(row: Row) -> Result<Self, IntoTypedError>;
 }
 
+impl FromRow for () {
+    fn from_row(_row: Row) -> Result<Self, IntoTypedError> {
+        Ok(())
+    }
+}
+
 macro_rules! impl_from_row_for_tuple {
     ($( ($idx:tt) - $T:ident );+;) => {
         impl<$($T,)+> FromRow for ($($T,)+)
