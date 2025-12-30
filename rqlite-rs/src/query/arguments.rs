@@ -87,6 +87,12 @@ impl RqliteArgumentRaw for serde_json::Value {
     }
 }
 
+impl RqliteArgumentRaw for std::net::Ipv4Addr {
+    fn encode(&self) -> RqliteArgument {
+        RqliteArgument::String(self.to_string())
+    }
+}
+
 #[cfg(feature = "ipnetwork")]
 impl RqliteArgumentRaw for ipnetwork::Ipv4Network {
     fn encode(&self) -> RqliteArgument {
